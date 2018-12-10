@@ -36,7 +36,11 @@ public class MasterFrame extends JFrame {
 		setContentPane(contentPane);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.2);
+		splitPane.setResizeWeight(0.10);
+		
+		splitPane.setLeftComponent(new SideMenu());
+		splitPane.setRightComponent(new InterFramePane());
+		
 		contentPane.add(splitPane, BorderLayout.CENTER);
 	}
 	/**
