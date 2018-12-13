@@ -1,11 +1,16 @@
 package com.ndevopssolution.view;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 /**
  * 
@@ -16,13 +21,15 @@ import javax.swing.tree.TreeNode;
  * 
  * @Created on Dec/09/2018
  */
-public class SideMenu extends JTree {
+public class SideMenu extends JTree implements TreeSelectionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	public SideMenu() {
 		setFont(new Font("Tahoma", Font.BOLD,18));
 		setExpandsSelectedPaths(true);
+		addTreeSelectionListener(this);
+		addMouseListener(this);
 		setModel(new TreeModel(new Node(), false));
 	}
 	
@@ -71,6 +78,56 @@ public class SideMenu extends JTree {
 			
 			return parentNode;
 		}
+		
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		String selectedNode = e.getNewLeadSelectionPath().getLastPathComponent().toString();
+		if(selectedNode == "New Member") {
+			/*NewMember member = new NewMember();
+			member.setVisible(true);
+			MasterFrame.addInternalFrame(member);*/
+		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int clickCount = e.getClickCount();
+		TreePath tp = this.getLeadSelectionPath();
+		if(tp != null && clickCount == 2) {
+			String selectedNode = tp.getLastPathComponent().toString();
+			if(selectedNode == "New Member") {
+				NewMember member = new NewMember();
+				member.setVisible(true);
+				MasterFrame.addInternalFrame(member);
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 
@@ -22,6 +24,7 @@ public class MasterFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static InterFramePane deskPane;
 
 	/**
 	 * Default constructor
@@ -34,12 +37,18 @@ public class MasterFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		deskPane = new InterFramePane();
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.10);
 		
+		JScrollPane scrollPane = new JScrollPane(deskPane);
+		scrollPane.setAutoscrolls(true);
+		deskPane.setAutoscrolls(true);
+		
 		splitPane.setLeftComponent(new SideMenu());
-		splitPane.setRightComponent(new InterFramePane());
+		splitPane.setRightComponent(deskPane);
+		
 		
 		contentPane.add(splitPane, BorderLayout.CENTER);
 	}
@@ -50,6 +59,10 @@ public class MasterFrame extends JFrame {
 		// TODO Auto-generated method stub
 		MasterFrame frame = new MasterFrame();
 		frame.setVisible(true);
+	}
+	
+	public static void addInternalFrame(JInternalFrame frame) {
+		deskPane.add(frame);
 	}
 
 }
