@@ -40,7 +40,7 @@ public class MasterFrame extends JFrame {
 		deskPane = new InterFramePane();
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.10);
+		splitPane.setResizeWeight(0.05);
 		
 		JScrollPane scrollPane = new JScrollPane(deskPane);
 		scrollPane.setAutoscrolls(true);

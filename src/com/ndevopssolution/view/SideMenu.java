@@ -108,7 +108,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		if(tp != null && clickCount == 2) {
 			String selectedNode = tp.getLastPathComponent().toString();
 			if(selectedNode == "New Member") {
-				NewMember member = new NewMember();
+				MemberDetailForm member = new MemberDetailForm();
 				member.setVisible(true);
 				MasterFrame.addInternalFrame(member);
 			}
