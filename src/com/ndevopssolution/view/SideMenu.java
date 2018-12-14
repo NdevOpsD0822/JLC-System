@@ -31,10 +31,17 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		addTreeSelectionListener(this);
 		addMouseListener(this);
 		setModel(new TreeModel(new Node(), false));
+		setRootVisible(false);
+		
+		for(int i=0; i <this.getRowCount(); i++) {
+			this.expandRow(i);
+		}
 	}
 	
 	private class TreeModel extends DefaultTreeModel {
 		
+		private static final long serialVersionUID = 1L;
+
 		public TreeModel(TreeNode node) {
 			super(node);
 		}
@@ -48,6 +55,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 	
 	private class Node extends DefaultMutableTreeNode {
 		
+		private static final long serialVersionUID = 1L;
 		String[] accounting = new String[] {
 				"Income Transaction", "Expense Transaction", "Batch Transaction"
 		};
