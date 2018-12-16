@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -26,7 +27,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 	private static final long serialVersionUID = 1L;
 	
 	public SideMenu() {
-		setFont(new Font("Tahoma", Font.BOLD,18));
+		setFont(new Font("Tahoma", Font.PLAIN,16));
 		setExpandsSelectedPaths(true);
 		addTreeSelectionListener(this);
 		addMouseListener(this);
@@ -79,9 +80,9 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		
 		private DefaultMutableTreeNode createNodes(String parentNodeLabel, String[] childNodeLabel) {
 			DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(parentNodeLabel);
-			
 			for(String label : childNodeLabel) {
-				parentNode.add(new DefaultMutableTreeNode(label));
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(label);
+				parentNode.add(child);
 			}
 			
 			return parentNode;
@@ -92,10 +93,19 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		String selectedNode = e.getNewLeadSelectionPath().getLastPathComponent().toString();
-		if(selectedNode == "New Member") {
-			/*NewMember member = new NewMember();
-			member.setVisible(true);
-			MasterFrame.addInternalFrame(member);*/
+		//System.out.println(e.getOldLeadSelectionPath());
+		if(e.getOldLeadSelectionPath() == null) {
+			if(selectedNode.equalsIgnoreCase("new member")) {
+				MemberForm frame = new MemberForm("New Member");
+				frame.setVisible(true);
+				MasterFrame.addInternalFrame(frame);
+			}
+		} else {
+			String previousNode = e.getOldLeadSelectionPath().getLastPathComponent().toString();
+			System.out.println(previousNode + " -> " + selectedNode);
+			if(selectedNode.equals(previousNode)) {
+				JOptionPane.showMessageDialog(this, "You clicked the same node as before", null, JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		
 	}
@@ -105,12 +115,14 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		// TODO Auto-generated method stub
 		int clickCount = e.getClickCount();
 		TreePath tp = this.getLeadSelectionPath();
+		System.out.println(tp.getLastPathComponent().toString());
 		if(tp != null && clickCount == 2) {
 			String selectedNode = tp.getLastPathComponent().toString();
 			if(selectedNode == "New Member") {
-				MemberDetailForm member = new MemberDetailForm();
-				member.setVisible(true);
-				MasterFrame.addInternalFrame(member);
+				//MemberDetailForm member = new MemberDetailForm();
+				MemberForm member = new MemberForm("New Member");
+				//member.setVisible(true);
+				//MasterFrame.addInternalFrame(member);
 			}
 		}
 	}

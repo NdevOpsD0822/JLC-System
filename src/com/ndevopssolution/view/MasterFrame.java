@@ -8,6 +8,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -47,7 +48,7 @@ public class MasterFrame extends JFrame {
 		deskPane.setAutoscrolls(true);
 		
 		splitPane.setLeftComponent(new SideMenu());
-		splitPane.setRightComponent(deskPane);
+		splitPane.setRightComponent(scrollPane);
 		
 		
 		contentPane.add(splitPane, BorderLayout.CENTER);
@@ -57,6 +58,9 @@ public class MasterFrame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		try {
+	        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+	    } catch (Exception evt) {}
 		MasterFrame frame = new MasterFrame();
 		frame.setVisible(true);
 	}
