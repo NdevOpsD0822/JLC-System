@@ -28,6 +28,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class MemberDetailForm extends JInternalFrame {
 	
@@ -231,6 +233,7 @@ public class MemberDetailForm extends JInternalFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(127);
 		table.getColumnModel().getColumn(4).setResizable(false);
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBorder(null);
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
 		JPanel panel_3 = new JPanel();
@@ -240,6 +243,7 @@ public class MemberDetailForm extends JInternalFrame {
 		tabbedPane.addTab("Primary Contacts", null, panel_4, null);
 		
 		JToolBar toolBar = new JToolBar();
+		toolBar.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		toolBar.setFloatable(false);
 		toolBar.setBounds(0, 0, 595, 36);
 		panel.add(toolBar);

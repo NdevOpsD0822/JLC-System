@@ -27,12 +27,13 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 	private static final long serialVersionUID = 1L;
 	
 	public SideMenu() {
-		setFont(new Font("Tahoma", Font.PLAIN,16));
+		setFont(new Font("Arial", Font.PLAIN,16));
 		setExpandsSelectedPaths(true);
 		addTreeSelectionListener(this);
 		addMouseListener(this);
 		setModel(new TreeModel(new Node(), false));
 		setRootVisible(false);
+		setRowHeight(32);
 		
 		for(int i=0; i <this.getRowCount(); i++) {
 			this.expandRow(i);
@@ -67,7 +68,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				"New Compaign", "Manage Compaign", "Compaign List"
 		};
 		String[] ministries = new String[] {
-				"New Compaign", "Manage Compaign", "Compaign List"
+				"New Ministry", "Manage Ministry", "Ministry List"
 		};
 		
 		public Node() {
@@ -96,9 +97,9 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		//System.out.println(e.getOldLeadSelectionPath());
 		if(e.getOldLeadSelectionPath() == null) {
 			if(selectedNode.equalsIgnoreCase("new member")) {
-				MemberForm frame = new MemberForm("New Member");
-				frame.setVisible(true);
-				MasterFrame.addInternalFrame(frame);
+				//MemberForm frame = new MemberForm("New Member");
+				//frame.setVisible(true);
+				//MasterFrame.addInternalFrame(frame);
 			}
 		} else {
 			String previousNode = e.getOldLeadSelectionPath().getLastPathComponent().toString();
@@ -115,14 +116,14 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		// TODO Auto-generated method stub
 		int clickCount = e.getClickCount();
 		TreePath tp = this.getLeadSelectionPath();
-		System.out.println(tp.getLastPathComponent().toString());
+		//System.out.println(tp.getLastPathComponent().toString());
 		if(tp != null && clickCount == 2) {
 			String selectedNode = tp.getLastPathComponent().toString();
 			if(selectedNode == "New Member") {
 				//MemberDetailForm member = new MemberDetailForm();
 				MemberForm member = new MemberForm("New Member");
-				//member.setVisible(true);
-				//MasterFrame.addInternalFrame(member);
+				member.setVisible(true);
+				MasterFrame.addInternalFrame(member);
 			}
 		}
 	}

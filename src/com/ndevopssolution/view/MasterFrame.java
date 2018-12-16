@@ -1,6 +1,7 @@
 package com.ndevopssolution.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
@@ -41,7 +42,7 @@ public class MasterFrame extends JFrame {
 		deskPane = new InterFramePane();
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.05);
+		splitPane.setResizeWeight(0.02);
 		
 		JScrollPane scrollPane = new JScrollPane(deskPane);
 		scrollPane.setAutoscrolls(true);
@@ -67,6 +68,10 @@ public class MasterFrame extends JFrame {
 	
 	public static void addInternalFrame(JInternalFrame frame) {
 		deskPane.add(frame);
+	}
+	
+	public static Dimension getDims() {
+		return deskPane.getSize();
 	}
 
 }

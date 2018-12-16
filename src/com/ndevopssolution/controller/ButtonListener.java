@@ -3,7 +3,7 @@ package com.ndevopssolution.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
+import com.ndevopssolution.view.MemberForm;
 
 /**
  * 
@@ -11,8 +11,7 @@ import javax.swing.JOptionPane;
  *
  * @Project Name JLC-System
  * @author NDevOps
- * 
- * @Created on Dec/15/2018
+ * @Created on Dec/16/2018
  */
 public class ButtonListener implements ActionListener {
 
@@ -22,8 +21,10 @@ public class ButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand() == "Save") {
-			JOptionPane.showMessageDialog(null, "YOU CLICK SAVE",null, JOptionPane.INFORMATION_MESSAGE);
+		if(e.getActionCommand().equals("Save." + MemberForm.getClassName())) {
+			System.out.println("Save button was pressed");
+		} else if(e.getActionCommand().equals("Close." + MemberForm.getClassName())) {
+			System.out.println("Close button was pressed");
 		}
 	}
 
