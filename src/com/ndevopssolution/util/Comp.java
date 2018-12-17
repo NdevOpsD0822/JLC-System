@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -24,12 +25,15 @@ import javax.swing.JTextField;
 public class Comp {
 	
 	public static JButton createBtn(JButton button, String text, String iconLoc, ActionListener listener, String parentClass) {
-		button = new JButton(text);
+		button = new JButton();
 		button.addActionListener(listener);
 		button.setActionCommand(text + "." + parentClass);
 		
 		if(iconLoc != null) {
 			button.setIcon(new ImageIcon(iconLoc));
+			button.setToolTipText(text);
+		} else {
+			button.setText(text);
 		}
 		
 		return button;
@@ -68,6 +72,15 @@ public class Comp {
 		txtField.setEnabled(enabled);
 		
 		return txtField;
+	}
+	
+	public static JTextArea createTxtArea(JTextArea textArea, int x, int y, Dimension size) {
+		
+		textArea = new JTextArea(5, 10);
+		textArea.setLineWrap(true);
+		textArea.setBounds(x, y, size.width, size.height);
+		
+		return textArea;
 	}
 	
 	public static JComboBox<String> createComboBx(JComboBox<String> comboBx, int x, int y, Dimension size, String[] options) {

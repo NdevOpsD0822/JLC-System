@@ -3,7 +3,9 @@ package com.ndevopssolution.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -35,6 +37,7 @@ public class MasterFrame extends JFrame {
 		super("Jesus Lighthouse Church");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
+		setIconImage(new ImageIcon("resources/icons/app_logo.png").getImage());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));

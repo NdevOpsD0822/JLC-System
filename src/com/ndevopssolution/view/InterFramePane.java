@@ -1,7 +1,6 @@
 package com.ndevopssolution.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JDesktopPane;
 
@@ -21,9 +20,4 @@ public class InterFramePane extends JDesktopPane {
 	public InterFramePane() {
 		setBackground(Color.darkGray);
 	}
-	
-	public static Dimension getDims() {
-		return new Dimension(WIDTH, HEIGHT);
-	}
-	
 }

@@ -24,7 +24,7 @@ public class ButtonListener implements ActionListener {
 		if(e.getActionCommand().equals("Save." + MemberForm.getClassName())) {
 			System.out.println("Save button was pressed");
 		} else if(e.getActionCommand().equals("Close." + MemberForm.getClassName())) {
-			System.out.println("Close button was pressed");
+			System.out.println(MemberForm.getClassName());
 		}
 	}
 
