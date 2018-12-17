@@ -6,6 +6,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +26,7 @@ import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+import com.ndevopssolution.controller.MemberUtil;
 import com.ndevopssolution.util.Comp;
 import com.toedter.calendar.JDateChooser;
 
@@ -45,11 +52,11 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 	private JPanel toolBarPanel, centerPanel;
 	private JPanel memberInfoPanel, contactInfoPanel;
 	private JToolBar toolBar;
-	private JTextField memberIDField, firstnameField, lastnameField, phoneField, emailField;
-	private JTextField address1Field, address2Field, cityField, postalCodeField, countryField;
-	private JTextArea memoField;
-	private JComboBox<String> genderField, statusField, stateField;
-	private JDateChooser birthdateField;
+	private JTextField memberIDField, firstName, lastName, phone, email;
+	private JTextField address1, address2, city, postalCode, country;
+	private JTextArea memo;
+	private JComboBox<String> gender, status, state;
+	private JDateChooser birthDate;
 	
 	
 	public MemberForm(String title) {
@@ -105,9 +112,6 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		TitledBorder titleBorder = new TitledBorder("Member Info");
 		titleBorder.setTitleFont(new Font("Arial",Font.BOLD, 11));
 		
-		birthdateField = new JDateChooser();
-		birthdateField.setBounds(94, 192, 172, 20);
-		
 		centerPanel = new JPanel(null);
 		
 		memberInfoPanel = new JPanel(null);
@@ -121,51 +125,67 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		contactInfoPanel.setBounds(12, 250, 620, 210);
 		
 		//Adding components to memberInfoPanel
+		memberIDField = Comp.createTxtField(memberIDField, 94, 32, txtSize, false);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "MemberID", 12,32, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(memberIDField, 94, 32, txtSize, false));
+		memberInfoPanel.add(memberIDField);
 		
+		firstName = Comp.createTxtField(firstName, 94, 64, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Firstname", 12, 64, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(firstnameField, 94, 64, txtSize));
+		memberInfoPanel.add(firstName);
 		
+		lastName = Comp.createTxtField(lastName, 94, 96, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Lastname", 12, 96, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(lastnameField, 94, 96, txtSize));
+		memberInfoPanel.add(lastName);
 		
+		gender = Comp.createComboBx(gender, 94, 128, txtSize, new String[] {"", "Male","Female"});
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Gender", 12, 128, lblSize));
-		memberInfoPanel.add(Comp.createComboBx(genderField, 94, 128, txtSize, new String[] {"", "Male","Female"}));
+		memberInfoPanel.add(gender);
 		
+		status = Comp.createComboBx(status, 94, 160, txtSize,new String[] {"", "Single","Maried"});
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Status", 12, 160, lblSize));
-		memberInfoPanel.add(Comp.createComboBx(statusField, 94, 160, txtSize,new String[] {"", "Single","Maried"}));
+		memberInfoPanel.add(status);
 		
+		birthDate = new JDateChooser();
+		birthDate.setBounds(94, 192, 172, 20);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Birth Date", 12, 192, lblSize));
-		memberInfoPanel.add(birthdateField);
+		memberInfoPanel.add(birthDate);
 		
+		address1 = Comp.createTxtField(address1, 432, 32, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Address1", 350, 32, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(address1Field, 432, 32, txtSize));
+		memberInfoPanel.add(address1);
 		
+		address2 = Comp.createTxtField(address2, 432, 64, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Address2", 350, 64, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(address2Field, 432, 64, txtSize));
+		memberInfoPanel.add(address2);
 		
+		city = Comp.createTxtField(city, 432, 96, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "City", 350, 96, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(cityField, 432, 96, txtSize));
+		memberInfoPanel.add(city);
 		
+		state = Comp.createComboBx(state, 432, 128, txtSize, new String[] {"","AB","BC","MB","SK","ON","QC","NS","NB","NL","NS","NT","YT","NU"});
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Province", 350, 128, lblSize));
-		memberInfoPanel.add(Comp.createComboBx(stateField, 432, 128, txtSize, new String[] {"","AB","BC","MB","SK","ON","QC","NS","NB","NL","NS","NT","YT","NU"}));
+		memberInfoPanel.add(state);
 		
+		postalCode = Comp.createTxtField(postalCode, 432, 160, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Postal Code", 350, 160, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(postalCodeField, 432, 160, txtSize));
+		memberInfoPanel.add(postalCode);
 		
+		country = Comp.createTxtField(country, 432, 192, txtSize);
 		memberInfoPanel.add(Comp.createLbl(new JLabel(), "Country", 350, 192, lblSize));
-		memberInfoPanel.add(Comp.createTxtField(countryField, 432, 192, txtSize));
+		memberInfoPanel.add(country);
 		
 		centerPanel.add(memberInfoPanel);
 		
+		phone = Comp.createTxtField(phone, 94, 32, txtSize);
 		contactInfoPanel.add(Comp.createLbl(new JLabel(), "Phone", 12, 32, lblSize));
-		contactInfoPanel.add(Comp.createTxtField(phoneField, 94, 32, txtSize));
+		contactInfoPanel.add(phone);
 		
+		email = Comp.createTxtField(email, 432, 32, txtSize);
 		contactInfoPanel.add(Comp.createLbl(new JLabel(), "Email", 350, 32, lblSize));
-		contactInfoPanel.add(Comp.createTxtField(emailField, 432, 32, txtSize));
+		contactInfoPanel.add(email);
 		
-		JScrollPane memoScrollPane = new JScrollPane(Comp.createTxtArea(memoField, 12, 90, new Dimension(620,100)));
+		memo = Comp.createTxtArea(memo, 12, 90, new Dimension(620,100));
+		JScrollPane memoScrollPane = new JScrollPane(memo);
 		memoScrollPane.setBounds(12, 90, 590, 100);
 		
 		contactInfoPanel.add(Comp.createLbl(new JLabel(), "Memo/Notes:", 12, 64, new Dimension(120,20)));
@@ -182,7 +202,38 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand().equals("Save")) {
-			System.out.println("Save button was pressed");
+			
+			String lastLine = "";
+			String newId = null;
+			int id = 0;
+			try {
+				
+				BufferedReader reader = new BufferedReader(new FileReader("logs/log.id"));
+				while((lastLine = reader.readLine()) != null) {
+					id = Integer.parseInt(lastLine);
+				}
+				reader.close();
+				newId = String.format("%05d", id+1);
+				
+				File file = new File("logs/log.id");
+				FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(newId+ "\n");
+				bw.close();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+			
+			String memberID = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
+			
+			SimpleDateFormat birthDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			int record = MemberUtil.saveMember(memberID,firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), status.getSelectedItem().toString(), 
+					birthDateFormat.format(birthDate.getDate()), address1.getText(), address2.getText(), city.getText(), state.getSelectedItem().toString(), postalCode.getText(), 
+					country.getText(), phone.getText(), email.getText(), memo.getText());
+			
+			if(record == 1) {
+				memberIDField.setText(memberID);
+			}
 		} else if(e.getActionCommand().equals("Close")) {
 			this.dispose();
 		}
