@@ -3,7 +3,6 @@ package com.ndevopssolution.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

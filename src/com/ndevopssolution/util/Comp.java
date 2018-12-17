@@ -24,10 +24,10 @@ import javax.swing.JTextField;
  */
 public class Comp {
 	
-	public static JButton createBtn(JButton button, String text, String iconLoc, ActionListener listener, String parentClass) {
+	public static JButton createBtn(JButton button, String text, String iconLoc, ActionListener listener) {
 		button = new JButton();
 		button.addActionListener(listener);
-		button.setActionCommand(text + "." + parentClass);
+		button.setActionCommand(text);
 		
 		if(iconLoc != null) {
 			button.setIcon(new ImageIcon(iconLoc));
@@ -39,15 +39,15 @@ public class Comp {
 		return button;
 	}
 	
-	public static JButton createBtn(JButton button, String text, int width, int height, String iconLoc, ActionListener listener, String parentClass) {
-		button = createBtn(button, text, iconLoc, listener, parentClass);
+	public static JButton createBtn(JButton button, String text, int width, int height, String iconLoc, ActionListener listener) {
+		button = createBtn(button, text, iconLoc, listener);
 		button.setPreferredSize(new Dimension(width,height));
 		
 		return button;
 	}
 	
-	public static JButton createBtn(JButton button, String text, Dimension size, String iconLoc, ActionListener listener, String parentClass) {
-		button = createBtn(button, text, size.width, size.height, iconLoc, listener, parentClass);
+	public static JButton createBtn(JButton button, String text, Dimension size, String iconLoc, ActionListener listener) {
+		button = createBtn(button, text, size.width, size.height, iconLoc, listener);
 		return button;
 	}
 	

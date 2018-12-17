@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +20,6 @@ import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-import com.ndevopssolution.controller.ButtonListener;
 import com.ndevopssolution.util.Comp;
 import com.toedter.calendar.JDateChooser;
 
@@ -31,7 +32,7 @@ import com.toedter.calendar.JDateChooser;
  * 
  * @Created on Dec/15/2018
  */
-public class MemberForm extends JInternalFrame {
+public class MemberForm extends JInternalFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final String className = "MemberForm";
@@ -49,7 +50,6 @@ public class MemberForm extends JInternalFrame {
 	private JTextArea memoField;
 	private JComboBox<String> genderField, statusField, stateField;
 	private JDateChooser birthdateField;
-	private ButtonListener listener = new ButtonListener();
 	
 	
 	public MemberForm(String title) {
@@ -95,9 +95,9 @@ public class MemberForm extends JInternalFrame {
 		toolBar.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		toolBar.add(toolBarPanel, BorderLayout.CENTER); //toolBarPanel is being used for proper placement of toolBar components
 		
-		toolBarPanel.add(Comp.createBtn(new JButton(), "Save", btnSize, "resources/icons/32x32/saveButton.png", listener,this.getClass().getSimpleName()));
-		toolBarPanel.add(Comp.createBtn(new JButton(), "New Member", btnSize, "resources/icons/32x32/newMember.png", listener, this.getClass().getSimpleName()));
-		toolBarPanel.add(Comp.createBtn(new JButton(), "Close", btnSize, "resources/icons/32x32/close.png", listener, this.getClass().getSimpleName()));
+		toolBarPanel.add(Comp.createBtn(new JButton(), "Save", btnSize, "resources/icons/32x32/saveButton.png", this));
+		toolBarPanel.add(Comp.createBtn(new JButton(), "New Member", btnSize, "resources/icons/32x32/newMember.png", this));
+		toolBarPanel.add(Comp.createBtn(new JButton(), "Close", btnSize, "resources/icons/32x32/close.png", this));
 	}
 	
 	private void centerPanelInit() {
@@ -176,6 +176,16 @@ public class MemberForm extends JInternalFrame {
 	
 	public static String getClassName() {
 		return className;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getActionCommand().equals("Save")) {
+			System.out.println("Save button was pressed");
+		} else if(e.getActionCommand().equals("Close")) {
+			this.dispose();
+		}
 	}
 	
 
