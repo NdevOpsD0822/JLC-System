@@ -27,7 +27,7 @@ public class MasterFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static InterFramePane deskPane;
+	private static DesktopFrame deskPane;
 
 	/**
 	 * Default constructor
@@ -41,7 +41,7 @@ public class MasterFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		deskPane = new InterFramePane();
+		deskPane = new DesktopFrame();
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.02);
