@@ -1,10 +1,5 @@
 package com.ndevopssolution.controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;

@@ -124,6 +124,10 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				MemberForm member = new MemberForm("New Member");
 				member.setVisible(true);
 				MasterFrame.addInternalFrame(member);
+			} else if(selectedNode == "Batch Transaction") {
+				TransactionEntry transaction = new TransactionEntry();
+				transaction.setVisible(true);
+				MasterFrame.addInternalFrame(transaction);
 			}
 		}
 	}
