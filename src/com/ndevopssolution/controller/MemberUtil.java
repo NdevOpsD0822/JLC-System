@@ -1,6 +1,7 @@
 package com.ndevopssolution.controller;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -48,6 +49,24 @@ public class MemberUtil {
 		}
 		
 		return 0;
+	}
+	
+	public static ResultSet getMembersList() {
+		
+		ResultSet rs = null;
+		
+		String sql = "SELECT MemberID,FirstName, LastName,Phone,Email, Gender, Status, DateOfBirth, Address1, Address2, City, State, Zip, Country, Memo from Members";
+		
+		conn = DBConnect.connect("", "");
+		
+		try {
+			stmt = conn.createStatement();
+			return rs = stmt.executeQuery(sql);
+		} catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		return rs;
 		
 	}
 

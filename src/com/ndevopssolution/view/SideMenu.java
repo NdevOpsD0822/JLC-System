@@ -62,7 +62,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				"Income Transaction", "Expense Transaction", "Batch Transaction"
 		};
 		String[] members = new String[] {
-				"New Member", "Update Member", "Member List"
+				"New Member", "Member List"
 		};
 		String[] compaigns = new String[] {
 				"New Compaign", "Manage Compaign", "Compaign List"
@@ -128,6 +128,10 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				TransactionEntry transaction = new TransactionEntry();
 				transaction.setVisible(true);
 				MasterFrame.addInternalFrame(transaction);
+			} else if(selectedNode.equals("Member List")) {
+				MemberList mList = new MemberList();
+				mList.setVisible(true);
+				MasterFrame.addInternalFrame(mList);
 			}
 		}
 	}
