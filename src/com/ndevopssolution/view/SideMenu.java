@@ -3,6 +3,7 @@ package com.ndevopssolution.view;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
@@ -71,12 +72,17 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				"New Ministry", "Manage Ministry", "Ministry List"
 		};
 		
+		String[] testForms = new String[] {
+				"TestTable"
+		};
+		
 		public Node() {
 			super("JLC DASHBOARD");
 			add(createNodes("ACCOUNTING", accounting));
 			add(createNodes("MEMBERS", members));
 			add(createNodes("MINISTRIES",ministries));
 			add(createNodes("COMPAIGNS",compaigns));
+			add(createNodes("TEST",testForms));
 		}
 		
 		private DefaultMutableTreeNode createNodes(String parentNodeLabel, String[] childNodeLabel) {
@@ -103,7 +109,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 			}
 		} else {
 			String previousNode = e.getOldLeadSelectionPath().getLastPathComponent().toString();
-			System.out.println(previousNode + " -> " + selectedNode);
+			//System.out.println(previousNode + " -> " + selectedNode);
 			if(selectedNode.equals(previousNode)) {
 				JOptionPane.showMessageDialog(this, "You clicked the same node as before", null, JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -113,7 +119,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		/*// TODO Auto-generated method stub
 		int clickCount = e.getClickCount();
 		TreePath tp = this.getLeadSelectionPath();
 		//System.out.println(tp.getLastPathComponent().toString());
@@ -124,16 +130,35 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				MemberForm member = new MemberForm("New Member");
 				member.setVisible(true);
 				MasterFrame.addInternalFrame(member);
+				try {
+					member.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else if(selectedNode == "Batch Transaction") {
 				TransactionEntry transaction = new TransactionEntry();
 				transaction.setVisible(true);
 				MasterFrame.addInternalFrame(transaction);
+				try {
+					transaction.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else if(selectedNode.equals("Member List")) {
 				MemberList mList = new MemberList();
 				mList.setVisible(true);
 				MasterFrame.addInternalFrame(mList);
+				try {
+					mList.setMaximum(true);
+					mList.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-		}
+		}*/
 	}
 
 	@Override
@@ -151,7 +176,54 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		TreePath tp = this.getLeadSelectionPath();
+		if(tp != null) {
+			String selectedNode = tp.getLastPathComponent().toString();
+			if(selectedNode == "New Member") {
+				//MemberDetailForm member = new MemberDetailForm();
+				MemberForm member = new MemberForm("New Member");
+				member.setVisible(true);
+				MasterFrame.addInternalFrame(member);
+				try {
+					member.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if(selectedNode == "Batch Transaction") {
+				TransactionEntry transaction = new TransactionEntry();
+				transaction.setVisible(true);
+				MasterFrame.addInternalFrame(transaction);
+				try {
+					transaction.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if(selectedNode.equals("Member List")) {
+				MemberList mList = new MemberList();
+				mList.setVisible(true);
+				MasterFrame.addInternalFrame(mList);
+				try {
+					mList.setMaximum(true);
+					mList.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if(selectedNode.equals("TestTable")) {
+				TestTable t = new TestTable();
+				t.setVisible(true);
+				MasterFrame.addInternalFrame(t);
+				try {
+					t.setSelected(true);
+					t.getTextField().setFocusable(true);
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
