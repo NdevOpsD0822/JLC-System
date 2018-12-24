@@ -60,7 +60,7 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 		
 		private static final long serialVersionUID = 1L;
 		String[] accounting = new String[] {
-				"Income Transaction", "Expense Transaction", "Batch Transaction"
+				"Income Transaction", "Expense Transaction"
 		};
 		String[] members = new String[] {
 				"New Member", "Member List"
@@ -207,17 +207,6 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 				try {
 					mList.setMaximum(true);
 					mList.setSelected(true);
-				} catch (PropertyVetoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			} else if(selectedNode.equals("TestTable")) {
-				TestTable t = new TestTable();
-				t.setVisible(true);
-				MasterFrame.addInternalFrame(t);
-				try {
-					t.setSelected(true);
-					t.getTextField().setFocusable(true);
 				} catch (PropertyVetoException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

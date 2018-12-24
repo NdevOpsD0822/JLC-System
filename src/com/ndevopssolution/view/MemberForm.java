@@ -11,6 +11,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -42,7 +45,6 @@ import com.toedter.calendar.JDateChooser;
 public class MemberForm extends JInternalFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private static final String className = "MemberForm";
 	
 	private final Dimension btnSize = new Dimension(60,60);
 	private final Dimension txtSize = new Dimension(172,20);
@@ -193,37 +195,11 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		
 		centerPanel.add(contactInfoPanel);
 	}
-	
-	public static String getClassName() {
-		return className;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand().equals("Save")) {
-			
-			String lastLine = "";
-			String newId = null;
-			int id = 0;
-			try {
-				
-				BufferedReader reader = new BufferedReader(new FileReader("logs/log.id"));
-				while((lastLine = reader.readLine()) != null) {
-					id = Integer.parseInt(lastLine);
-				}
-				reader.close();
-				newId = String.format("%05d", id+1);
-				
-				File file = new File("logs/log.id");
-				FileWriter fw = new FileWriter(file, true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(newId+ "\n");
-				bw.close();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
-			
+		/*if(e.getActionCommand().equals("Save")) {
 			String memberID = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
 			
 			SimpleDateFormat birthDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -236,7 +212,96 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 			}
 		} else if(e.getActionCommand().equals("Close")) {
 			this.dispose();
+		}*/
+		if(e.getActionCommand().equals("Save")) {
+			if(isRequiredFieldsFilled()) {
+				String lastLine = null;
+				String newId = null;
+				int id = 0;
+				
+				try {
+					BufferedReader reader = new BufferedReader(new FileReader("logs/log.id"));
+					while((lastLine = reader.readLine()) != null) {
+						id = Integer.parseInt(lastLine);
+					}
+					reader.close(); // close the BufferedReader to avoid memory leak
+					newId = String.format("%05d", id + 1); //format the id with 5 digit
+					
+					File file = new File("logs/log.id"); //create a file object for the id logs
+					FileWriter writer = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(writer);
+					bw.write(newId + "\n");
+					bw.close();
+					
+					String memberId = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
+					
+					if(getBirthDate() != null) {
+						try {
+							int record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
+									status.getSelectedItem().toString(), getBirthDate(), address1.getText(), address2.getText(), city.getText(), 
+									state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
+							System.out.println(record);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						try {
+							int record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
+									status.getSelectedItem().toString(), address1.getText(), address2.getText(), city.getText(), 
+									state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
+							System.out.println(record);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					
+					
+					
+				} catch(IOException ioe) {
+					JOptionPane.showMessageDialog(null, ioe.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		} else if(e.getActionCommand().equals("New Member")) {
+			if(getBirthDate() != null) {
+				System.out.println(getBirthDate());
+			}
+			System.out.println(validateComboBox(state));
 		}
+	}
+	
+	private String getBirthDate() {
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM-dd-yyyy");
+		if(birthDate != null && birthDate.getDate() != null) {
+			return dateFormatter.format(birthDate.getDate());
+		}
+		
+		return null;
+	}
+	
+	private boolean validateComboBox(JComboBox<String> dropDown) {
+		String strValue = null;
+		if(dropDown != null && dropDown.getSelectedItem() != null) {
+			strValue = dropDown.getSelectedItem().toString();
+			if(strValue != null && !strValue.isEmpty()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean isRequiredFieldsFilled() {
+		
+		if(firstName == null || firstName.getText().isEmpty()) {
+			return false;
+		} else if(lastName == null || lastName.getText().isEmpty()) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 

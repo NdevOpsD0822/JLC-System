@@ -27,7 +27,7 @@ public class MemberUtil {
 	
 	public static int saveMember(String memberID, String firstName, String lastName, String gender, String status, String birthDate,
 								  String address1, String address2, String city, String state, String postalCode, String country,
-								  String phone, String email, String memo) {
+								  String phone, String email, String memo) throws SQLException {
 		
 		
 		String sql = "INSERT INTO members(MemberID,FirstName,LastName,Gender,Status,DateOfBirth," +
@@ -39,14 +39,27 @@ public class MemberUtil {
 		conn = DBConnect.connect("", "");
 		
 		if(conn != null) {
-			try {
-				stmt = conn.createStatement();
-				return stmt.executeUpdate(sql);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
+			stmt = conn.createStatement();
+			return stmt.executeUpdate(sql);
+		}
+		
+		return 0;
+	}
+	
+	public static int saveMember(String memberID, String firstName, String lastName, String gender, String status, 
+								 String address1, String address2, String city, String state, String postalCode, String country,
+								 String phone, String email, String memo) throws SQLException {
+		String sql = "INSERT INTO members(MemberID,FirstName,LastName,Gender,Status,Address1,Address2,City,State,Zip,Country,Phone,Email,Memo) " +
+					"VALUES('" + memberID +"','" + firstName + "','" + lastName + "','" + gender + "','" + status + "'," +
+					         "'" + address1 + "','" + address2 + "','" + city + "','" + state + "','" + postalCode + "','" + country + "'," +
+					         "'" + phone + "','" + email + "','" + memo + "')";
+		
+		conn = DBConnect.connect("", "");
+		
+		if(conn != null) {
+			stmt = conn.createStatement();
+			return stmt.executeUpdate(sql);
+
 		}
 		
 		return 0;

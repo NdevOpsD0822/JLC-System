@@ -74,7 +74,8 @@ public class MemberListTable extends JTable {
 		    while (rs.next()) {
 		        Vector<Object> vector = new Vector<Object>();
 		        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-		            if(columnIndex == 8) {
+		            if(columnIndex == 8 && rs.getDate(columnIndex) !=null) {
+		            	System.out.println(rs.getDate(columnIndex));
 		            	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
 		            	String formattedDate = dateFormat.format(rs.getDate(columnIndex));
 		            	vector.add(formattedDate);
