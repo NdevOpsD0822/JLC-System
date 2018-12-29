@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -67,6 +68,7 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		setLocation(0, 0);
 		setClosable(true);
 		setFrameIcon(new ImageIcon("resources/icons/member.png"));
+		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		init();
 	}
 	
@@ -98,7 +100,7 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		toolBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 1));
 		
 		/*Components for toolBar that will be put into North section of contentPane*/
-		toolBar = new JToolBar(JToolBar.HORIZONTAL);
+		toolBar = new JToolBar();
 		toolBar.setLayout(new BorderLayout());
 		toolBar.setFloatable(false);
 		toolBar.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -198,82 +200,86 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		/*if(e.getActionCommand().equals("Save")) {
-			String memberID = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
-			
-			SimpleDateFormat birthDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-			int record = MemberUtil.saveMember(memberID,firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), status.getSelectedItem().toString(), 
-					birthDateFormat.format(birthDate.getDate()), address1.getText(), address2.getText(), city.getText(), state.getSelectedItem().toString(), postalCode.getText(), 
-					country.getText(), phone.getText(), email.getText(), memo.getText());
-			
-			if(record == 1) {
-				memberIDField.setText(memberID);
-			}
-		} else if(e.getActionCommand().equals("Close")) {
-			this.dispose();
-		}*/
 		if(e.getActionCommand().equals("Save")) {
 			if(isRequiredFieldsFilled()) {
 				String lastLine = null;
 				String newId = null;
 				int id = 0;
-				
 				try {
-					BufferedReader reader = new BufferedReader(new FileReader("logs/log.id"));
-					while((lastLine = reader.readLine()) != null) {
-						id = Integer.parseInt(lastLine);
-					}
-					reader.close(); // close the BufferedReader to avoid memory leak
-					newId = String.format("%05d", id + 1); //format the id with 5 digit
-					
-					File file = new File("logs/log.id"); //create a file object for the id logs
-					FileWriter writer = new FileWriter(file, true);
-					BufferedWriter bw = new BufferedWriter(writer);
-					bw.write(newId + "\n");
-					bw.close();
-					
-					String memberId = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
-					
-					if(getBirthDate() != null) {
+					if(!MemberUtil.isMemberExist(firstName.getText(), lastName.getText())) {
 						try {
-							int record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
-									status.getSelectedItem().toString(), getBirthDate(), address1.getText(), address2.getText(), city.getText(), 
-									state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
-							System.out.println(record);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							BufferedReader reader = new BufferedReader(new FileReader("logs/log.id"));
+							while((lastLine = reader.readLine()) != null) {
+								id = Integer.parseInt(lastLine);
+							}
+							reader.close(); // close the BufferedReader to avoid memory leak
+							newId = String.format("%05d", id + 1); //format the id with 5 digit
+							
+							File file = new File("logs/log.id"); //create a file object for the id logs
+							FileWriter writer = new FileWriter(file, true);
+							BufferedWriter bw = new BufferedWriter(writer);
+							bw.write(newId + "\n");
+							bw.close();
+							int record = 0;
+							String memberId = firstName.getText().substring(0, 1).toUpperCase() + lastName.getText().substring(0, 1).toUpperCase() + newId;
+							
+							if(getBirthDate() != null) {
+								try {
+									record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
+											status.getSelectedItem().toString(), getBirthDate(), address1.getText(), address2.getText(), city.getText(), 
+											state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
+								} catch (SQLException e1) {
+									System.out.println(e1.getMessage());
+								}
+							} else {
+								try {
+									record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
+											status.getSelectedItem().toString(), address1.getText(), address2.getText(), city.getText(), 
+											state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
+								} catch (SQLException e1) {
+									System.out.println(e1.getMessage());
+								}
+							}
+							
+							if(record == 1) {
+								JOptionPane.showMessageDialog(this, "New member added!\n\n",null, JOptionPane.PLAIN_MESSAGE);
+								memberIDField.setText(memberId);
+							}
+							
+							
+							
+						} catch(IOException ioe) {
+							JOptionPane.showMessageDialog(null, ioe.getMessage(), null, JOptionPane.ERROR_MESSAGE);
 						}
 					} else {
-						try {
-							int record = MemberUtil.saveMember(memberId, firstName.getText(), lastName.getText(), gender.getSelectedItem().toString(), 
-									status.getSelectedItem().toString(), address1.getText(), address2.getText(), city.getText(), 
-									state.getSelectedItem().toString(), postalCode.getText(), country.getText(), phone.getText(), email.getText(), memo.getText());
-							System.out.println(record);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						JOptionPane.showMessageDialog(null, "New member already exist!", null, JOptionPane.WARNING_MESSAGE);
 					}
 					
-					
-					
-				} catch(IOException ioe) {
-					JOptionPane.showMessageDialog(null, ioe.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+				} catch (NumberFormatException | HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getStackTrace(), null, JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
+		} else if(e.getActionCommand().equals("Close")) {
+			this.dispose();
+			
 		} else if(e.getActionCommand().equals("New Member")) {
-			if(getBirthDate() != null) {
-				System.out.println(getBirthDate());
+			try {
+				System.out.println(MemberUtil.isMemberExist("Noli", "Guerrero"));
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			System.out.println(validateComboBox(state));
 		}
 	}
 	
+	/*
+	 * Validate the birth date, if the field is empty it will not be save
+	 * @dateFormatter is used to format the date in the user preferred
+	 */
 	private String getBirthDate() {
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM-dd-yyyy");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 		if(birthDate != null && birthDate.getDate() != null) {
 			return dateFormatter.format(birthDate.getDate());
 		}
@@ -281,6 +287,7 @@ public class MemberForm extends JInternalFrame implements ActionListener {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean validateComboBox(JComboBox<String> dropDown) {
 		String strValue = null;
 		if(dropDown != null && dropDown.getSelectedItem() != null) {

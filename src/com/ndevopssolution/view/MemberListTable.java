@@ -1,6 +1,8 @@
 package com.ndevopssolution.view;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.ndevopssolution.controller.MemberUtil;
@@ -21,13 +24,15 @@ import com.ndevopssolution.controller.MemberUtil;
  * 
  * @Created on Dec/22/2018
  */
-public class MemberListTable extends JTable {
+public class MemberListTable extends JTable implements MouseListener {
 	
 	private static final long serialVersionUID = 1L;
 	private static DefaultTableModel tableModel;
 
-	public MemberListTable() {
+	public MemberListTable() throws SQLException {
 		super(buildTableModel(MemberUtil.getMembersList()));
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		addMouseListener(this);
 		
 		getColumnModel().getColumn(0).setPreferredWidth(72);
 		getColumnModel().getColumn(1).setPreferredWidth(130);
@@ -75,7 +80,7 @@ public class MemberListTable extends JTable {
 		        Vector<Object> vector = new Vector<Object>();
 		        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
 		            if(columnIndex == 8 && rs.getDate(columnIndex) !=null) {
-		            	System.out.println(rs.getDate(columnIndex));
+		            	//System.out.println(rs.getDate(columnIndex));
 		            	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
 		            	String formattedDate = dateFormat.format(rs.getDate(columnIndex));
 		            	vector.add(formattedDate);
@@ -102,6 +107,49 @@ public class MemberListTable extends JTable {
 		
 	    return tableModel;
 
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int clickCount = e.getClickCount();
+		if(clickCount == 2) {
+			DefaultTableModel t = (DefaultTableModel)this.getModel();
+			Object[] record = new Object[t.getColumnCount()]; 
+			//String[] record = new String[t.getColumnCount()];
+			for(int c = 0; c < t.getColumnCount(); c++) {
+				record[c] = t.getValueAt(this.getSelectedRow(), c);
+			}
+			
+			//System.out.println(record.length);
+			for(int i=0; i < record.length; i++) {
+				System.out.print(record[i].toString() + "\t");
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

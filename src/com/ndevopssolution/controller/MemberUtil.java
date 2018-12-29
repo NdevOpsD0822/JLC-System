@@ -65,7 +65,7 @@ public class MemberUtil {
 		return 0;
 	}
 	
-	public static ResultSet getMembersList() {
+	public static ResultSet getMembersList() throws SQLException {
 		
 		ResultSet rs = null;
 		
@@ -73,14 +73,29 @@ public class MemberUtil {
 		
 		conn = DBConnect.connect("", "");
 		
-		try {
+		if(conn != null) {
 			stmt = conn.createStatement();
 			return rs = stmt.executeQuery(sql);
-		} catch(SQLException sqle) {
-			sqle.printStackTrace();
 		}
 		
 		return rs;
+		
+	}
+	
+	public static boolean isMemberExist(String firstName, String lastName) throws SQLException {
+		
+		ResultSet rs = null;
+		
+		rs = getMembersList();
+		
+		while(rs.next()) {
+			//System.out.println(rs.getString(2) + "\t" + rs.getString(3));
+			if(rs.getString(2).equalsIgnoreCase(firstName) && rs.getString(3).equalsIgnoreCase(lastName)) {
+				return true;
+			}
+		}
+		
+		return false;
 		
 	}
 

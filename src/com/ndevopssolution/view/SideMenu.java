@@ -190,27 +190,21 @@ public class SideMenu extends JTree implements TreeSelectionListener, MouseListe
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else if(selectedNode == "Batch Transaction") {
-				TransactionEntry transaction = new TransactionEntry();
-				transaction.setVisible(true);
-				MasterFrame.addInternalFrame(transaction);
-				try {
-					transaction.setSelected(true);
-				} catch (PropertyVetoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 			} else if(selectedNode.equals("Member List")) {
 				MemberList mList = new MemberList();
 				mList.setVisible(true);
 				MasterFrame.addInternalFrame(mList);
 				try {
-					mList.setMaximum(true);
+					mList.setSize(MasterFrame.getDims());
 					mList.setSelected(true);
 				} catch (PropertyVetoException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			} else {
+				TestTable test = new TestTable();
+				test.setVisible(true);
+				MasterFrame.addInternalFrame(test);
 			}
 		}
 	}

@@ -28,7 +28,6 @@ public class DBConnect {
 			dbLoc = input.readLine();
 			input.close();
 			dbDriver = "jdbc:ucanaccess://" + dbLoc;
-			System.out.println(dbLoc);
 			conn = DriverManager.getConnection(dbDriver);
 			
 		} catch(IOException fe) {

@@ -1,19 +1,12 @@
 package com.ndevopssolution.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import javax.swing.JSplitPane;
-import java.awt.Dimension;
-import javax.swing.JToolBar;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import com.toedter.calendar.JDateChooser;
 
 public class TransactionEntry extends JInternalFrame {
 
@@ -40,7 +33,7 @@ public class TransactionEntry extends JInternalFrame {
 	 */
 	public TransactionEntry() {
 		setClosable(true);
-		setBounds(100, 100, 981, 742);
+		setBounds(0, 0, 981, 742);
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.5);
