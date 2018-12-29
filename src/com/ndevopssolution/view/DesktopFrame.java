@@ -13,11 +13,11 @@ import javax.swing.JDesktopPane;
  * 
  * @Created on Dec/09/2018
  */
-public class InterFramePane extends JDesktopPane {
+public class DesktopFrame extends JDesktopPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	public InterFramePane() {
+	public DesktopFrame() {
 		setBackground(Color.darkGray);
 	}
 }
